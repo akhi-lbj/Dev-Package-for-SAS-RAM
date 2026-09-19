@@ -52,6 +52,12 @@ If you just want the skill without cloning the whole repository:
 
 ---
 
+### 📚 In-Depth Developer Documentation
+
+Participants can also refer to [**SAS_RAM_Documentation_For_Developers.pdf**](./SAS_RAM_Documentation_For_Developers.pdf) located directly in the root of this repository for more detailed architectural overviews, technical background, and complete SAS RAM specifications.
+
+---
+
 ## 🤖 How to Prompt Your AI Assistant
 
 Once installed in your project, your AI assistant will automatically activate the `sas-ram-integration` skill. You can prompt it with tasks like:
@@ -68,6 +74,7 @@ Once installed in your project, your AI assistant will automatically activate th
 
 ```
 ├── SKILL.md                          # Master AI agent instructions & API contracts
+├── SAS_RAM_Documentation_For_Developers.pdf # Detailed developer guide & documentation
 ├── templates/
 │   ├── .env.example                  # Environment variables template (RAM_URL)
 │   ├── typescript/
