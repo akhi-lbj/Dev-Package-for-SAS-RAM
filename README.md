@@ -23,7 +23,7 @@ git clone https://github.com/akhi-lbj/Dev-Package-for-SAS-RAM.git .agents/skills
   - `typescript/` & `javascript/`: Stateless BFF proxies, device auth flow, and query clients.
   - `python/ram_router.py`: Production FastAPI gateway with cookie sessions, token mutex, async polling, and live traces.
   - `javascript/gateway-client.js`: Frontend client for stateful gateways.
-- **[`references/`](./references/)** — OpenAPI 3.0 spec (`openapi-v1.yml`), endpoint reference, and auth guides.
+- **[`references/`](./references/)** & **[`API_Docs/`](./API_Docs/)** — Full OpenAPI 3.0 specs, scraped REST API reference, request/response samples (JavaScript/Python), and auth guides.
 - **[`examples/curl-walkthrough.md`](./examples/curl-walkthrough.md)** — Direct terminal cURL testing playbook.
 - **[`SAS_RAM_Documentation_For_Developers.pdf`](./SAS_RAM_Documentation_For_Developers.pdf)** — Official developer guide.
 
