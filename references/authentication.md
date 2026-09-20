@@ -1,25 +1,26 @@
 # Authentication with SAS Retrieval Agent Manager
 
-SAS Retrieval Agent Manager provides OAuth 2.0 OpenID Connect authentication endpoints under:
+SAS Retrieval Agent Manager provides OAuth 2.0 and OpenID Connect authentication endpoints. Depending on your environment architecture, three authentication flows are supported:
+
 ```
-{RAM_URL}/SASRetrievalAgentManager/auth/realms/sas-iot/protocol/openid-connect
+Detection Probe: GET {RAM_BASE}/SASRetrievalAgentManager/auth/realms/{realm}/.well-known/openid-configuration
+If HTTP 200 -> Flow A (Device Code Flow with PKCE)
+If HTTP 404/Redirect -> Flow B (SAS Viya SASLogon Auth Code)
 ```
 
 ---
 
-## The Standard Approach: OAuth 2.0 Device Code Flow (RFC 8628) with PKCE
+## Flow A: OAuth 2.0 Device Code Flow (RFC 8628) with PKCE
+The standard, zero-friction authentication flow for standalone SAS RAM or Keycloak OIDC realms (`sas-iot`).
 
-### Why Device Code Flow is the Standard for Custom Applications:
-1. **Zero Administrator Setup Required**: The `sas-ram-api` client is pre-configured and enabled on every SAS RAM installation.
-2. **Works Across Any Host/Port**: Does not depend on strict browser redirect whitelist configurations, so it runs seamlessly on `localhost`, staging, or production environments.
-3. **Maximum Security (PKCE)**: The custom application never sees or handles the user's password. Users log in directly on SAS's secure domain, and the client application exchanges the authorization grant using a one-time cryptographic Proof Key for Code Exchange (PKCE).
+### Key Properties:
+1. **Zero Administrator Setup**: Uses the built-in public client `sas-ram-api`. No redirect URI whitelisting or client secrets needed.
+2. **Domain Independent**: Works identically on `localhost`, staging, cloud containers, or production domains.
+3. **Maximum Security (PKCE)**: Client generates a one-time cryptographic Proof Key for Code Exchange (`code_verifier` and `code_challenge`).
 
----
+### Step-by-Step Implementation
 
-### Implementation Steps
-
-#### Step 1: Generate PKCE Parameters
-Generate a cryptographically random `code_verifier` (32 bytes base64url) and its SHA-256 hash `code_challenge`:
+#### 1. Generate PKCE Parameters
 ```ts
 import { randomBytes, createHash } from "node:crypto";
 
@@ -32,35 +33,34 @@ export function generateCodeChallenge(verifier: string): string {
 }
 ```
 
-#### Step 2: Request Device Authorization
-* **Endpoint**: `POST {RAM_URL}/SASRetrievalAgentManager/auth/realms/sas-iot/protocol/openid-connect/auth/device`
+#### 2. Request Device Authorization
+* **Endpoint**: `POST {RAM_BASE}/SASRetrievalAgentManager/auth/realms/{realm}/protocol/openid-connect/auth/device`
 * **Content-Type**: `application/x-www-form-urlencoded`
 * **Body**:
   ```
   client_id=sas-ram-api
+  scope=openid
   code_challenge={code_challenge}
   code_challenge_method=S256
-  scope=openid
   ```
 * **Response**:
   ```json
   {
-    "device_code": "S4xr2S0nWakUEZoOQ...",
-    "user_code": "STDC-OFPE",
-    "verification_uri": "https://<host>/SASRetrievalAgentManager/auth/realms/sas-iot/device",
-    "verification_uri_complete": "https://<host>/SASRetrievalAgentManager/auth/realms/sas-iot/device?user_code=STDC-OFPE",
+    "device_code": "dev-code-xyz",
+    "user_code": "WXYZ-1234",
+    "verification_uri": "https://<host>/auth/device",
+    "verification_uri_complete": "https://<host>/auth/device?user_code=WXYZ-1234",
     "expires_in": 600,
     "interval": 5
   }
   ```
 
-#### Step 3: Prompt the User
-Display the `user_code` and `verification_uri` in your application interface.
-When the user opens the verification link, SAS prompts them to approve the request (or recognizes their active SAS session) and grants access.
+#### 3. User Approves Code
+The user visits `verification_uri` in a browser, enters `user_code`, and approves access.
 
-#### Step 4: Poll for the Access Token
-While the user authorizes in the browser, poll the token endpoint at the recommended `interval` (every 5 seconds):
-* **Endpoint**: `POST {RAM_URL}/SASRetrievalAgentManager/auth/realms/sas-iot/protocol/openid-connect/token`
+#### 4. Poll for Token
+Poll every `interval` seconds (default 5s):
+* **Endpoint**: `POST {RAM_BASE}/SASRetrievalAgentManager/auth/realms/{realm}/protocol/openid-connect/token`
 * **Content-Type**: `application/x-www-form-urlencoded`
 * **Body**:
   ```
@@ -69,25 +69,68 @@ While the user authorizes in the browser, poll the token endpoint at the recomme
   device_code={device_code}
   code_verifier={code_verifier}
   ```
-* **Pending Status (`400 Bad Request`)**:
-  `{"error": "authorization_pending"}` &rarr; Continue polling.
-* **Success Status (`200 OK`)**:
-  ```json
-  {
-    "access_token": "eyJhbGciOiJSUzI1NiIs...",
-    "refresh_token": "eyJhbGciOiJIUzI1NiIs...",
-    "expires_in": 300,
-    "refresh_expires_in": 1800,
-    "token_type": "Bearer"
-  }
-  ```
+* **Responses**:
+  * `HTTP 400` with `{"error": "authorization_pending"}` &rarr; Continue polling.
+  * `HTTP 400` with `{"error": "slow_down"}` &rarr; Increase interval by 5 seconds.
+  * `HTTP 200 OK` &rarr; Success! Returns `access_token` and `refresh_token`.
 
-#### Step 5: Refreshing Expired Tokens
-When the `access_token` expires:
-* **Endpoint**: `POST {RAM_URL}/SASRetrievalAgentManager/auth/realms/sas-iot/protocol/openid-connect/token`
-* **Body**:
-  ```
-  grant_type=refresh_token
-  client_id=sas-ram-api
-  refresh_token={refresh_token}
-  ```
+---
+
+## Flow B: SAS Viya SASLogon Authorization Code Flow
+Used in enterprise SAS Viya environments with centralized SASLogon.
+
+1. **User Opens Login URL**:
+   User opens `{VIYA_HOST}/SASLogon/oauth/authorize?client_id=sas.cli&response_type=code` in browser and logs in.
+2. **Obtains Authorization Code**:
+   SASLogon displays a one-time authorization code.
+3. **Exchanges Code for Tokens**:
+   * **Endpoint**: `POST {VIYA_HOST}/SASLogon/oauth/token`
+   * **Headers**: `Authorization: Basic c2FzLmNsaTo=` (Base64 of `sas.cli:`), `Content-Type: application/x-www-form-urlencoded`
+   * **Body**: `grant_type=authorization_code&code={pasted_code}`
+   * **Response**: Returns `access_token` and `refresh_token`.
+
+---
+
+## Flow C: Service Accounts & Automated Pipelines
+* **Static Bearer Token**: Set `RAM_TOKEN=<token>` in environment variables for headless CI/CD runs.
+* **Client Credentials Grant**:
+  * `POST {VIYA_HOST}/SASLogon/oauth/token`
+  * Body: `grant_type=client_credentials&client_id={id}&client_secret={secret}`
+
+---
+
+## Critical Requirement: Concurrency-Locked Token Refresh
+
+Many OIDC identity providers (including Keycloak and SASLogon) enforce **single-use refresh token rotation**. When a refresh token is used, it is invalidated and replaced with a new one.
+
+> [!CAUTION]
+> If two incoming client requests trigger a token refresh simultaneously, the second request will use an already-revoked refresh token. The auth server flags this as a replay attack (`invalid_grant`) and immediately revokes the entire user session.
+
+### Resolution: Per-Session Mutex Lock
+Always serialize token refresh operations using an asynchronous or sync mutex lock:
+
+```python
+_locks: dict[str, asyncio.Lock] = {}
+
+def get_lock(sid: str) -> asyncio.Lock:
+    if sid not in _locks:
+        _locks[sid] = asyncio.Lock()
+    return _locks[sid]
+
+async def get_valid_token(sid: str, session: dict) -> str:
+    # 1. Fast path: token still valid for > 60s
+    if session.get("token") and session.get("expires_at", 0) > time.time() + 60:
+        return session["token"]
+
+    # 2. Serialize refresh under mutex
+    async with get_lock(sid):
+        # Double check after lock acquisition
+        if session.get("token") and session.get("expires_at", 0) > time.time() + 60:
+            return session["token"]
+
+        new_tokens = await execute_refresh(session["refresh_token"])
+        session["token"] = new_tokens["access_token"]
+        session["refresh_token"] = new_tokens.get("refresh_token")
+        session["expires_at"] = time.time() + new_tokens.get("expires_in", 300)
+        return session["token"]
+```

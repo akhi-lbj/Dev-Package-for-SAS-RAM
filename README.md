@@ -82,14 +82,17 @@ Once installed in your project, your AI assistant will automatically activate th
 │   │   ├── api-proxy-route.ts        # Next.js / Express BFF proxy handler
 │   │   ├── chat-service.ts           # Query execution and session management
 │   │   └── types.d.ts                # TypeScript type definitions for SAS RAM
-│   └── javascript/
-│       ├── auth-device-flow.js       # JavaScript equivalent for Device Flow
-│       ├── api-proxy-route.js        # JavaScript equivalent for BFF proxy
-│       └── chat-service.js           # JavaScript equivalent for chat queries
+│   ├── javascript/
+│   │   ├── auth-device-flow.js       # JavaScript equivalent for Device Flow
+│   │   ├── api-proxy-route.js        # JavaScript equivalent for BFF proxy
+│   │   ├── chat-service.js           # JavaScript equivalent for chat queries
+│   │   └── gateway-client.js         # Method 2 frontend client with session cookies & traces
+│   └── python/
+│       └── ram_router.py             # Method 2 stateful FastAPI gateway router
 ├── references/
 │   ├── api-overview.md               # Summary of REST endpoints & schemas
-│   ├── authentication.md             # In-depth guide to RFC 8628 Device Flow
-│   ├── bff-proxy-pattern.md          # Architectural rationale for the BFF proxy
+│   ├── authentication.md             # In-depth guide to RFC 8628 Device Flow & SASLogon
+│   ├── bff-proxy-pattern.md          # Architectural rationale for BFF proxy & Gateway
 │   └── openapi-v1.yml                # Full OpenAPI v1 specification for SAS RAM
 └── examples/
     └── curl-walkthrough.md           # Step-by-step cURL verification playbook

@@ -1,47 +1,52 @@
-# Backend-For-Frontend (BFF) Proxy Pattern for SAS RAM
+# Intermediary Proxy Patterns for SAS RAM: Method 1 vs. Method 2
 
-When building web applications that integrate with SAS Retrieval Agent Manager (RAM), **never call SAS RAM endpoints directly from browser client JavaScript**.
+When connecting custom web applications or agents to SAS Retrieval Agent Manager (RAM), **never call SAS RAM endpoints directly from browser JavaScript**.
 
-Always route client calls through a server-side proxy route (e.g., Next.js App Router Route Handler, Express, or FastAPI).
-
----
-
-## 1. Why a BFF Proxy is Mandatory
-
-1. **CORS Restrictions**: SAS RAM REST endpoints do not permit arbitrary cross-origin browser requests by default.
-2. **Token Security**: Prevents raw tokens or service secrets from being exposed directly to the browser DOM.
-3. **Gateway Redirect Interception**: SAS RAM is shielded behind an `oauth2-proxy` gateway which behaves differently from standard REST APIs when unauthenticated.
-4. **SSL / Self-Signed Certificates**: Corporate SAS deployments often use internal or self-signed certificates. Node.js backend proxies can easily manage SSL validation in development.
+CORS policies and SAS network ingress controllers block cross-origin browser traffic. An intermediary backend layer is mandatory.
 
 ---
 
-## 2. The Critical Gotcha: Intercepting `oauth2-proxy` Redirects
+## 1. Architectural Patterns Overview
 
-### The Problem:
-When a client sends an invalid, expired, or missing `Authorization` header to SAS RAM, the ingress gateway (`oauth2-proxy`) **does NOT return an HTTP 401 Unauthorized status code**. 
+| Feature | Method 1: Stateless Pass-Through BFF Proxy | Method 2: Stateful Application Gateway |
+| :--- | :--- | :--- |
+| **Core Mechanism** | Transparent reverse proxy; client manages tokens | Dedicated backend gateway; browser binds via `HttpOnly` cookie |
+| **Token Handling** | Client passes `Authorization: Bearer <token>` | Tokens held server-side; client never sees JWTs |
+| **Session Model** | Stateless (no memory/disk store on server) | Stateful: `ram_sid` cookie mapped to memory store + disk backup |
+| **Timeout Handling** | Client orchestrates async polling manually | Gateway enforces async `synchronous=false` & polls upstream |
+| **Trace Aggregation** | Client queries trace endpoints individually | Gateway aggregates `/toolCalls`, `/retrievalCalls`, `/llmCalls` |
+| **Document Inlining** | Client manually parses & concatenates text | Gateway exposes `/extract` endpoint with character budgeting |
+| **Recommended Runtime** | Serverless / Edge (Next.js route handlers, Express) | Long-running backend servers (FastAPI, Express, Go, Spring Boot) |
 
-Instead, it returns an **HTTP 302 Redirect** pointing to the SAS login HTML page.
+---
 
-By default, the standard `fetch()` API in Node.js/browsers automatically follows redirects. As a result:
-- The server receives the SAS HTML login document.
-- It returns HTTP `200 OK` to your frontend.
-- The frontend attempts to parse the response as JSON (`response.json()`), crashing with:
-  `SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON`.
+## 2. The Universal Gotcha: The 302 Redirect Trap
 
-### The Solution:
-In your proxy route handler, you **must set `redirect: "manual"`** on all outbound `fetch()` requests and check for redirect status codes:
+### The Problem
+When a client sends an invalid, expired, or missing `Authorization` header to SAS RAM, the ingress gateway (`oauth2-proxy` or ingress controller) **does NOT return an HTTP 401 Unauthorized status code**.
+
+Instead, it returns an **HTTP 302/307 Redirect** pointing to an HTML login page.
+
+By default, the standard `fetch()` API in browsers and Node.js automatically follows redirects. As a result:
+1. The server fetches the SAS HTML login document.
+2. It returns HTTP `200 OK` to the frontend with an HTML document payload.
+3. The frontend attempts to parse the response as JSON (`res.json()`), crashing with:
+   `SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON`.
+
+### The Universal Fix
+In your proxy or gateway handler, always set **`redirect: "manual"`** on upstream requests:
 
 ```ts
-const response = await fetch(targetUrl, {
-  method: request.method,
-  headers: forwardHeaders,
-  body: requestBody,
-  redirect: "manual", // CRITICAL: Do not automatically follow redirects!
+const res = await fetch(targetUrl, {
+  method: req.method,
+  headers: upstreamHeaders,
+  body: reqBody,
+  redirect: "manual", // CRITICAL: Stop automatic redirect chasing
 });
 
-// Intercept unauthenticated redirects and return a clean 401 JSON response
-if (response.type === "opaqueredirect" || (response.status >= 300 && response.status < 400)) {
-  return new Response(JSON.stringify({ error: "Not authenticated with RAM backend" }), {
+// Intercept 3xx redirect responses and convert to clean 401 JSON
+if (res.status >= 300 && res.status < 400) {
+  return new Response(JSON.stringify({ error: "Session expired or unauthorized" }), {
     status: 401,
     headers: { "Content-Type": "application/json" },
   });
@@ -50,30 +55,52 @@ if (response.type === "opaqueredirect" || (response.status >= 300 && response.st
 
 ---
 
-## 3. Handling Self-Signed SSL Certificates
+## 3. Method 1: Stateless BFF Proxy Contract
 
-In development or proof-of-concept environments, SAS Viya servers often run with company internal or self-signed certificates.
+Under Method 1, the proxy layer forwards queries transparently while handling CORS and redirect trapping.
 
-In your proxy utility (e.g., `src/lib/fetch-config.ts`):
 ```ts
-if (process.env.NODE_ENV === "development") {
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+export async function handleProxyRequest(req: Request, ramApiUrl: string) {
+  const url = new URL(req.url);
+  const endpoint = url.searchParams.get("endpoint");
+  if (!endpoint) return new Response(JSON.stringify({ error: "endpoint required" }), { status: 400 });
+
+  url.searchParams.delete("endpoint");
+  const target = `${ramApiUrl.replace(/\/+$/, "")}${endpoint.startsWith("/") ? "" : "/"}${endpoint}${url.search ? `?${url.searchParams}` : ""}`;
+
+  const headers = new Headers();
+  headers.set("Content-Type", "application/json");
+  const auth = req.headers.get("Authorization");
+  if (auth) headers.set("Authorization", auth);
+
+  const res = await fetch(target, {
+    method: req.method,
+    headers,
+    body: ["POST", "PUT", "PATCH"].includes(req.method) ? await req.text() : undefined,
+    redirect: "manual",
+  });
+
+  if (res.status >= 300 && res.status < 400) {
+    return new Response(JSON.stringify({ error: "Session expired or unauthorized" }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  return new Response(res.body, { status: res.status, headers: { "Content-Type": "application/json" } });
 }
 ```
-*(Warning: For production deployments, install the trusted SAS CA bundle in your container/OS rather than globally disabling TLS verification).*
 
 ---
 
-## 4. URL Mapping Pattern
+## 4. Method 2: Stateful Application Gateway Contract
 
-Standardize your proxy URL structure so the frontend can query any RAM endpoint simply:
+Under Method 2, the gateway owns the token lifecycle and isolates the browser using an `HttpOnly` cookie (`ram_sid`).
 
-* **Frontend call**:
-  `GET /custom-chat-api?endpoint=/collections`
-* **Proxy maps to**:
-  `${process.env.RAM_URL}/SASRetrievalAgentManager/api/v1/collections`
-
-* **Frontend call**:
-  `POST /custom-chat-api?endpoint=/query&synchronous=true&persist=true`
-* **Proxy maps to**:
-  `${process.env.RAM_URL}/SASRetrievalAgentManager/api/v1/query?synchronous=true&persist=true`
+### Key Responsibilities:
+1. **Cookie Session Binding**: Sets `Set-Cookie: ram_sid=...; HttpOnly; SameSite=Lax; Path=/api/ram`.
+2. **Concurrency Mutex Lock**: Protects token refresh with a per-session mutex (`asyncio.Lock`) so simultaneous requests don't burn single-use refresh tokens.
+3. **Session Persistence**: Writes active tokens to a local session file (e.g. `.ram_sessions.json` with `0600` permissions) so backend restarts don't sign out users.
+4. **504 Timeout Immunity**: Always passes `synchronous=false` to `POST /query`, returns `queryId`, and handles background polling.
+5. **Trace Aggregation**: Concurrently queries `/toolCalls`, `/retrievalCalls`, and `/llmCalls` using `parentQueryId`.
+6. **File Text Extraction**: Accepts multipart uploads (PDF, DOCX, TXT), strips binary headers, and truncates text to fit within prompt token budgets.
