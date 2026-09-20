@@ -1,1 +1,6 @@
 .env
+
+# Scraper Scripts & Dependencies (Untracked)
+scrape_sas_ram.py
+scrape_sas_ram.js
+requirements-scraper.txt

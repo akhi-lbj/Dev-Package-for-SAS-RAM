@@ -1,0 +1,198 @@
+{
+  "sourceUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager",
+  "total": 24,
+  "endpoints": [
+    {
+      "slug": "root",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/root",
+      "title": "Get a list of the public endpoints",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    },
+    {
+      "slug": "getQueries",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getQueries",
+      "title": "Get a list of the available queries",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    },
+    {
+      "slug": "createQuery",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/createQuery",
+      "title": "Create a query",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    },
+    {
+      "slug": "getQuerySessions",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getQuerySessions",
+      "title": "Get a list of the available query sessions",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    },
+    {
+      "slug": "getCollections",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getCollections",
+      "title": "Get a list of the available collections",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    },
+    {
+      "slug": "getLlms",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getLlms",
+      "title": "Get a list of the available LLMs",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    },
+    {
+      "slug": "getLlmCalls",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getLlmCalls",
+      "title": "Get a list of the available LLM calls",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    },
+    {
+      "slug": "getToolCalls",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getToolCalls",
+      "title": "Get a list of all tool calls",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    },
+    {
+      "slug": "getRetrievalCalls",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getRetrievalCalls",
+      "title": "Get a list of the available retrieval calls",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    },
+    {
+      "slug": "getAgents",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getAgents",
+      "title": "Get a list of all agents",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    },
+    {
+      "slug": "getSources",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getSources",
+      "title": "Get a list of the available sources",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    },
+    {
+      "slug": "createSource",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/createSource",
+      "title": "Create a source",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    },
+    {
+      "slug": "deleteSource",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/deleteSource",
+      "title": "Delete a source",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    },
+    {
+      "slug": "getSource",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getSource",
+      "title": "Get a source",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    },
+    {
+      "slug": "getSourceFiles",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getSourceFiles",
+      "title": "Get a list of files from a specific source",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    },
+    {
+      "slug": "createSourceFile",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/createSourceFile",
+      "title": "Create a file in a specific source",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    },
+    {
+      "slug": "deleteSourceFile",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/deleteSourceFile",
+      "title": "Delete a file from a source",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    },
+    {
+      "slug": "getSourceFile",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getSourceFile",
+      "title": "Get a file from a specific source",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    },
+    {
+      "slug": "deleteTagFromSourceFile",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/deleteTagFromSourceFile",
+      "title": "Removes a source file tag from a source file",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    },
+    {
+      "slug": "updateFileWithTag",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/updateFileWithTag",
+      "title": "Update a source file with a tag",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    },
+    {
+      "slug": "updateSourceTriggerAutomation",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/updateSourceTriggerAutomation",
+      "title": "Trigger automation based on a source",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    },
+    {
+      "slug": "getTags",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getTags",
+      "title": "Get a list of all source file tags",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    },
+    {
+      "slug": "createTag",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/createTag",
+      "title": "Create a source file tag",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    },
+    {
+      "slug": "deleteTag",
+      "url": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/deleteTag",
+      "title": "Delete a source file tag",
+      "description": "",
+      "method": "GET",
+      "codeSamples": []
+    }
+  ]
+}

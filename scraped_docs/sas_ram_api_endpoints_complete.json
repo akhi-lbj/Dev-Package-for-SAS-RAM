@@ -1,0 +1,3608 @@
+{
+  "sourceUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager",
+  "scrapedAt": "2026-09-20T08:47:21Z",
+  "apiMetadata": {
+    "pageTitle": "SAS Developer Portal",
+    "apiName": "SAS Retrieval Agent Manager",
+    "version": "v1",
+    "description": ""
+  },
+  "totalEndpoints": 24,
+  "categories": [
+    "Root",
+    "Query",
+    "Query Sessions",
+    "Collections",
+    "Llms",
+    "Llm Calls",
+    "Tool Calls",
+    "Retrieval Calls",
+    "Agents",
+    "Sources",
+    "Tags"
+  ],
+  "endpoints": [
+    {
+      "operationId": "root",
+      "category": "Root",
+      "method": "GET",
+      "path": "/",
+      "summary": "Get a list of the public endpoints",
+      "description": "Returns a list of the public endpoints.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/root",
+      "parameters": [],
+      "requestBody": {},
+      "responses": {
+        "200": {
+          "description": "Successful Response",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/';\nconst options = {\n  method: 'GET',\n  headers: {Authorization: 'Bearer YOUR_ACCESS_TOKEN', Accept: 'application/json'}\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n}\n\ntry:\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n    }\n    async with httpx.AsyncClient() as client:\n        response = await client.get(url, headers=headers)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X GET \"https://example.com/SASRetrievalAgentManager/api/v1/\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\""
+        },
+        "bodyExamples": []
+      },
+      "responseSamples": [
+        {
+          "statusCode": "200",
+          "mediaType": "application/json",
+          "description": "Successful Response",
+          "key": "example-1",
+          "value": {
+            "links": [
+              {
+                "href": "/",
+                "method": "GET",
+                "rel": "self",
+                "responseType": "application/json",
+                "type": "application/json",
+                "uri": "/"
+              }
+            ],
+            "version": "1"
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "getQueries",
+      "category": "Query",
+      "method": "GET",
+      "path": "/query",
+      "summary": "Get a list of the available queries",
+      "description": "Returns a list of all the queries for a given session ID.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getQueries",
+      "parameters": [
+        {
+          "name": "filter",
+          "in": "query",
+          "required": false,
+          "description": "The criteria for filtering. Supported attributes include id, querySessionId, and parentQueryId. Additional attributes might be added in future releases.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "enum": null
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "description": "The maximum number of records to be returned. `>= 1` or `<= 100`",
+          "type": "integer",
+          "default": 50,
+          "enum": null
+        },
+        {
+          "name": "start",
+          "in": "query",
+          "required": false,
+          "description": "The zero-based offset of the first record to be returned. `>= 0`",
+          "type": "integer",
+          "default": 0,
+          "enum": null
+        }
+      ],
+      "requestBody": {},
+      "responses": {
+        "200": {
+          "description": "The request succeeded.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "400": {
+          "description": "The request was invalid.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "422": {
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/query';\nconst options = {\n  method: 'GET',\n  headers: {Authorization: 'Bearer YOUR_ACCESS_TOKEN', Accept: 'application/json'}\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/query\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n}\n\ntry:\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/query\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n    }\n    async with httpx.AsyncClient() as client:\n        response = await client.get(url, headers=headers)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X GET \"https://example.com/SASRetrievalAgentManager/api/v1/query\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\""
+        },
+        "bodyExamples": []
+      },
+      "responseSamples": [
+        {
+          "statusCode": "200",
+          "mediaType": "application/json",
+          "description": "The request succeeded.",
+          "key": "example-1",
+          "value": {
+            "count": 1,
+            "items": [
+              {
+                "content": "What is the weather today?",
+                "errorCode": 0,
+                "errorText": "",
+                "id": "079b46b9-fbc4-44ce-8cb1-163330e4d812",
+                "origin": "user",
+                "parentQueryId": "",
+                "querySessionId": "4fd000e3-5945-40cf-83ef-0c7fc19fcde1",
+                "response": {
+                  "answer": "The weather today is sunny with a high of 75°F.",
+                  "context": [],
+                  "toolCalls": [],
+                  "usageMetadata": {
+                    "llmCompletionCost": 0.00024,
+                    "llmCompletionTokens": 12,
+                    "llmPromptCost": 0.00016,
+                    "llmPromptTokens": 8,
+                    "llmTotalCost": 0.0004,
+                    "llmTotalTokens": 20
+                  }
+                },
+                "target": "collection",
+                "targetId": {
+                  "configuration_ids": [
+                    "86cc0aae-04ed-4e0f-97d2-53e8b7dc9881"
+                  ]
+                }
+              }
+            ],
+            "limit": 50,
+            "name": "queries",
+            "start": 0
+          }
+        },
+        {
+          "statusCode": "400",
+          "mediaType": "application/json",
+          "description": "The request was invalid.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 400,
+            "httpStatusCode": 400,
+            "message": "Invalid query parameter.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "422",
+          "mediaType": "application/json",
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 422,
+            "httpStatusCode": 422,
+            "message": "Missing or invalid fields in request body or parameters.",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "createQuery",
+      "category": "Query",
+      "method": "POST",
+      "path": "/query",
+      "summary": "Create a query",
+      "description": "Creates a query.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/createQuery",
+      "parameters": [
+        {
+          "name": "synchronous",
+          "in": "query",
+          "required": true,
+          "description": "This is an indicator for whether the query response is returned. If 'true', this call returns the query response. If 'false', the query is executed asynchronously and the response must be fetched separately. This parameter is required.",
+          "type": "boolean",
+          "default": null,
+          "enum": null
+        },
+        {
+          "name": "persistent",
+          "in": "query",
+          "required": false,
+          "description": "This is an indicator for whether to persist the query in the SAS Retrieval Agent Manager database. If 'true', the query persists. If 'false', the query is not retained in the database.",
+          "type": "boolean",
+          "default": true,
+          "enum": null
+        }
+      ],
+      "requestBody": {
+        "description": "",
+        "required": true,
+        "contents": {
+          "application/json": {
+            "schemaType": null,
+            "schemaRef": null,
+            "properties": []
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "The request succeeded.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "201": {
+          "description": "A query was created.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "400": {
+          "description": "The request was invalid.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "422": {
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/query';\nconst options = {\n  method: 'POST',\n  headers: {\n    Authorization: 'Bearer YOUR_ACCESS_TOKEN',\n    'Content-Type': 'application/json',\n    Accept: 'application/json'\n  },\n  body: JSON.stringify({\n    \"agentId\": \"6fd000e3-5945-40cf-83ef-0c7fc19fcde1\",\n    \"content\": \"What is the weather like today?\",\n    \"querySessionId\": \"4fd000e3-5945-40cf-83ef-0c7fc19fcde1\"\n})\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/query\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n    \"Content-Type\": \"application/json\",\n}\npayload = {\n    \"agentId\": \"6fd000e3-5945-40cf-83ef-0c7fc19fcde1\",\n    \"content\": \"What is the weather like today?\",\n    \"querySessionId\": \"4fd000e3-5945-40cf-83ef-0c7fc19fcde1\"\n}\n\ntry:\n    response = requests.post(url, headers=headers, json=payload)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/query\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n        \"Content-Type\": \"application/json\",\n    }\n    payload = {\n        \"agentId\": \"6fd000e3-5945-40cf-83ef-0c7fc19fcde1\",\n        \"content\": \"What is the weather like today?\",\n        \"querySessionId\": \"4fd000e3-5945-40cf-83ef-0c7fc19fcde1\"\n}\n    async with httpx.AsyncClient() as client:\n        response = await client.post(url, headers=headers, json=payload)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X POST \"https://example.com/SASRetrievalAgentManager/api/v1/query\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"agentId\": \"6fd000e3-5945-40cf-83ef-0c7fc19fcde1\",\n  \"content\": \"What is the weather like today?\",\n  \"querySessionId\": \"4fd000e3-5945-40cf-83ef-0c7fc19fcde1\"\n}'"
+        },
+        "bodyExamples": [
+          {
+            "key": "example-1",
+            "summary": "An example request by the user to query an agent",
+            "mediaType": "application/json",
+            "value": {
+              "agentId": "6fd000e3-5945-40cf-83ef-0c7fc19fcde1",
+              "content": "What is the weather like today?",
+              "querySessionId": "4fd000e3-5945-40cf-83ef-0c7fc19fcde1"
+            }
+          },
+          {
+            "key": "example-2",
+            "summary": "An example request by the user to query a collection",
+            "mediaType": "application/json",
+            "value": {
+              "collectionIds": [
+                "079b46b9-fbc4-44ce-8cb1-163330e4d812",
+                "86cc0aae-04ed-4e0f-97d2-53e8b7dc9881"
+              ],
+              "content": "What is the weather like today?",
+              "querySessionId": "4fd000e3-5945-40cf-83ef-0c7fc19fcde1"
+            }
+          }
+        ]
+      },
+      "responseSamples": [
+        {
+          "statusCode": "200",
+          "mediaType": "application/json",
+          "description": "The request succeeded.",
+          "key": "example-1",
+          "value": {
+            "content": "What is a business result?",
+            "errorCode": 0,
+            "id": "6fd000e3-5945-40cf-83ef-0c7fc19fcde1",
+            "origin": "agent",
+            "parentQueryId": "4fd000e3-5945-40cf-83ef-0c7fc19fcde1",
+            "querySessionId": "21647604-55c0-4283-b5df-7e1c273d86aa",
+            "response": {
+              "answer": "A business result is a measurable outcome that indicates the success or progress of a company in achieving its strategic goals and objectives.",
+              "context": [],
+              "toolCalls": [],
+              "usageMetadata": {
+                "llmCompletionCost": 0.00056,
+                "llmCompletionTokens": 28,
+                "llmPromptCost": 0.00016,
+                "llmPromptTokens": 8,
+                "llmTotalCost": 0.00072,
+                "llmTotalTokens": 36
+              }
+            },
+            "target": "collection",
+            "targetId": {
+              "configurationIds": [
+                "86cc0aae-04ed-4e0f-97d2-53e8b7dc9881",
+                "079b46b9-fbc4-44ce-8cb1-163330e4d812"
+              ]
+            },
+            "userEmail": "appadmin@example.com"
+          }
+        },
+        {
+          "statusCode": "201",
+          "mediaType": "application/json",
+          "description": "A query was created.",
+          "key": "example-1",
+          "value": {
+            "content": "What is a business result?",
+            "errorCode": 0,
+            "id": "6fd000e3-5945-40cf-83ef-0c7fc19fcde1",
+            "origin": "agent",
+            "parentQueryId": "4fd000e3-5945-40cf-83ef-0c7fc19fcde1",
+            "querySessionId": "21647604-55c0-4283-b5df-7e1c273d86aa",
+            "response": {
+              "answer": "A business result is a measurable outcome that indicates the success or progress of a company in achieving its strategic goals and objectives.",
+              "context": [],
+              "toolCalls": [],
+              "usageMetadata": {
+                "llmCompletionCost": 0.00056,
+                "llmCompletionTokens": 28,
+                "llmPromptCost": 0.00016,
+                "llmPromptTokens": 8,
+                "llmTotalCost": 0.00072,
+                "llmTotalTokens": 36
+              }
+            },
+            "target": "collection",
+            "targetId": {
+              "configurationIds": [
+                "86cc0aae-04ed-4e0f-97d2-53e8b7dc9881",
+                "079b46b9-fbc4-44ce-8cb1-163330e4d812"
+              ]
+            },
+            "userEmail": "appadmin@example.com"
+          }
+        },
+        {
+          "statusCode": "201",
+          "mediaType": "application/json",
+          "description": "A query was created.",
+          "key": "example-2",
+          "value": {
+            "queryId": "6fd000e3-5945-40cf-83ef-0c7fc19fcde1",
+            "querySessionId": "4fd000e3-5945-40cf-83ef-0c7fc19fcde1"
+          }
+        },
+        {
+          "statusCode": "400",
+          "mediaType": "application/json",
+          "description": "The request was invalid.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 400,
+            "httpStatusCode": 400,
+            "message": "Invalid query parameter.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "422",
+          "mediaType": "application/json",
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 422,
+            "httpStatusCode": 422,
+            "message": "Missing or invalid fields in request body or parameters.",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "getQuerySessions",
+      "category": "Query Sessions",
+      "method": "GET",
+      "path": "/querySessions",
+      "summary": "Get a list of the available query sessions",
+      "description": "Returns a list of the available query sessions.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getQuerySessions",
+      "parameters": [
+        {
+          "name": "filter",
+          "in": "query",
+          "required": false,
+          "description": "The criteria for filtering. Supported attributes include id and title. Additional attributes might be added in future releases.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "enum": null
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "description": "The maximum number of records to be returned. `>= 1` or `<= 100`",
+          "type": "integer",
+          "default": 50,
+          "enum": null
+        },
+        {
+          "name": "start",
+          "in": "query",
+          "required": false,
+          "description": "The zero-based offset of the first record to be returned. `>= 0`",
+          "type": "integer",
+          "default": 0,
+          "enum": null
+        },
+        {
+          "name": "sortBy",
+          "in": "query",
+          "required": false,
+          "description": "The criteria for sorting. Supported attributes include id, title, insertTimestamp, and updateTimestamp. Additional attributes might be added in future releases.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "enum": null
+        }
+      ],
+      "requestBody": {},
+      "responses": {
+        "200": {
+          "description": "The request succeeded.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "400": {
+          "description": "The request was invalid.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "422": {
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/querySessions';\nconst options = {\n  method: 'GET',\n  headers: {Authorization: 'Bearer YOUR_ACCESS_TOKEN', Accept: 'application/json'}\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/querySessions\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n}\n\ntry:\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/querySessions\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n    }\n    async with httpx.AsyncClient() as client:\n        response = await client.get(url, headers=headers)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X GET \"https://example.com/SASRetrievalAgentManager/api/v1/querySessions\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\""
+        },
+        "bodyExamples": []
+      },
+      "responseSamples": [
+        {
+          "statusCode": "200",
+          "mediaType": "application/json",
+          "description": "The request succeeded.",
+          "key": "example-1",
+          "value": {
+            "count": 1,
+            "items": [
+              {
+                "id": "079b46b9-fbc4-44ce-8cb1-163330e4d812",
+                "insertTimestamp": "2025-12-12T19:48:53.448286+00:00",
+                "title": "What is the weather today?",
+                "updateTimestamp": "2025-12-12T19:48:53.448286+00:00"
+              }
+            ],
+            "limit": 50,
+            "name": "querySessions",
+            "start": 0
+          }
+        },
+        {
+          "statusCode": "400",
+          "mediaType": "application/json",
+          "description": "The request was invalid.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 400,
+            "httpStatusCode": 400,
+            "message": "Invalid query parameter.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "422",
+          "mediaType": "application/json",
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 422,
+            "httpStatusCode": 422,
+            "message": "Missing or invalid fields in request body or parameters.",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "getCollections",
+      "category": "Collections",
+      "method": "GET",
+      "path": "/collections",
+      "summary": "Get a list of the available collections",
+      "description": "Returns a list of the available collections.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getCollections",
+      "parameters": [
+        {
+          "name": "filter",
+          "in": "query",
+          "required": false,
+          "description": "The criteria for filtering. Supported attributes include id and name. Additional attributes might be added in future releases.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "enum": null
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "description": "The maximum number of records to be returned. `>= 1` or `<= 100`",
+          "type": "integer",
+          "default": 50,
+          "enum": null
+        },
+        {
+          "name": "start",
+          "in": "query",
+          "required": false,
+          "description": "The zero-based offset of the first record to be returned. `>= 0`",
+          "type": "integer",
+          "default": 0,
+          "enum": null
+        }
+      ],
+      "requestBody": {},
+      "responses": {
+        "200": {
+          "description": "The request succeeded.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "400": {
+          "description": "The request was invalid.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "422": {
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/collections';\nconst options = {\n  method: 'GET',\n  headers: {Authorization: 'Bearer YOUR_ACCESS_TOKEN', Accept: 'application/json'}\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/collections\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n}\n\ntry:\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/collections\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n    }\n    async with httpx.AsyncClient() as client:\n        response = await client.get(url, headers=headers)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X GET \"https://example.com/SASRetrievalAgentManager/api/v1/collections\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\""
+        },
+        "bodyExamples": []
+      },
+      "responseSamples": [
+        {
+          "statusCode": "200",
+          "mediaType": "application/json",
+          "description": "The request succeeded.",
+          "key": "example-1",
+          "value": {
+            "count": 1,
+            "items": [
+              {
+                "description": "A collection containing weather data.",
+                "id": "079b46b9-fbc4-44ce-8cb1-163330e4d812",
+                "name": "Weather Collection"
+              }
+            ],
+            "limit": 50,
+            "name": "collections",
+            "start": 0
+          }
+        },
+        {
+          "statusCode": "400",
+          "mediaType": "application/json",
+          "description": "The request was invalid.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 400,
+            "httpStatusCode": 400,
+            "message": "Invalid query parameter.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "422",
+          "mediaType": "application/json",
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 422,
+            "httpStatusCode": 422,
+            "message": "Missing or invalid fields in request body or parameters.",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "getLlms",
+      "category": "Llms",
+      "method": "GET",
+      "path": "/llms",
+      "summary": "Get a list of the available LLMs",
+      "description": "Returns a list of all the available LLMs.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getLlms",
+      "parameters": [
+        {
+          "name": "filter",
+          "in": "query",
+          "required": false,
+          "description": "The criteria for filtering. Supported attributes include id and name. Additional attributes might be added in future releases.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "enum": null
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "description": "The maximum number of records to be returned. `>= 1` or `<= 100`",
+          "type": "integer",
+          "default": 50,
+          "enum": null
+        },
+        {
+          "name": "start",
+          "in": "query",
+          "required": false,
+          "description": "The zero-based offset of the first record to be returned. `>= 0`",
+          "type": "integer",
+          "default": 0,
+          "enum": null
+        }
+      ],
+      "requestBody": {},
+      "responses": {
+        "200": {
+          "description": "The request succeeded.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "400": {
+          "description": "The request was invalid.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "422": {
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/llms';\nconst options = {\n  method: 'GET',\n  headers: {Authorization: 'Bearer YOUR_ACCESS_TOKEN', Accept: 'application/json'}\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/llms\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n}\n\ntry:\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/llms\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n    }\n    async with httpx.AsyncClient() as client:\n        response = await client.get(url, headers=headers)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X GET \"https://example.com/SASRetrievalAgentManager/api/v1/llms\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\""
+        },
+        "bodyExamples": []
+      },
+      "responseSamples": [
+        {
+          "statusCode": "200",
+          "mediaType": "application/json",
+          "description": "The request succeeded.",
+          "key": "example-1",
+          "value": {
+            "count": 1,
+            "items": [
+              {
+                "description": "LLM From API",
+                "id": "079b46b9-fbc4-44ce-8cb1-163330e4d812",
+                "name": "gpt-4o",
+                "type": "azure_openai"
+              }
+            ],
+            "limit": 50,
+            "name": "llms",
+            "start": 0
+          }
+        },
+        {
+          "statusCode": "400",
+          "mediaType": "application/json",
+          "description": "The request was invalid.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 400,
+            "httpStatusCode": 400,
+            "message": "Invalid query parameter.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "422",
+          "mediaType": "application/json",
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 422,
+            "httpStatusCode": 422,
+            "message": "Missing or invalid fields in request body or parameters.",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "getLlmCalls",
+      "category": "Llm Calls",
+      "method": "GET",
+      "path": "/llmCalls",
+      "summary": "Get a list of the available LLM calls",
+      "description": "Returns a list of the available LLM calls.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getLlmCalls",
+      "parameters": [
+        {
+          "name": "filter",
+          "in": "query",
+          "required": false,
+          "description": "The criteria for filtering. Supported attributes include id, llmId, and parentQueryId. Additional attributes might be added in future releases.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "enum": null
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "description": "The maximum number of records to be returned. `>= 1` or `<= 100`",
+          "type": "integer",
+          "default": 50,
+          "enum": null
+        },
+        {
+          "name": "start",
+          "in": "query",
+          "required": false,
+          "description": "The zero-based offset of the first record to be returned. `>= 0`",
+          "type": "integer",
+          "default": 0,
+          "enum": null
+        }
+      ],
+      "requestBody": {},
+      "responses": {
+        "200": {
+          "description": "The request succeeded.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "400": {
+          "description": "The request was invalid.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "422": {
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/llmCalls';\nconst options = {\n  method: 'GET',\n  headers: {Authorization: 'Bearer YOUR_ACCESS_TOKEN', Accept: 'application/json'}\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/llmCalls\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n}\n\ntry:\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/llmCalls\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n    }\n    async with httpx.AsyncClient() as client:\n        response = await client.get(url, headers=headers)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X GET \"https://example.com/SASRetrievalAgentManager/api/v1/llmCalls\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\""
+        },
+        "bodyExamples": []
+      },
+      "responseSamples": [
+        {
+          "statusCode": "200",
+          "mediaType": "application/json",
+          "description": "The request succeeded.",
+          "key": "example-1",
+          "value": {
+            "count": 1,
+            "items": [
+              {
+                "completionCost": 0.0005,
+                "completionTokens": 25,
+                "id": "079b46b9-fbc4-44ce-8cb1-163330e4d812",
+                "input": {
+                  "content": "What is the weather like today?",
+                  "modelName": "gpt-4o",
+                  "modelProvider": "azure",
+                  "temperature": 0.7
+                },
+                "llmId": "de772bda-8756-41a8-9c68-defe2932bdad",
+                "output": {
+                  "response": "The weather today is sunny with a high of 75°F.",
+                  "toolCalls": []
+                },
+                "parentQueryId": "19c0e653-28f5-49da-aa34-7ade481b362e",
+                "promptCost": 0.0003,
+                "promptTokens": 15
+              }
+            ],
+            "limit": 50,
+            "name": "collections",
+            "start": 0
+          }
+        },
+        {
+          "statusCode": "400",
+          "mediaType": "application/json",
+          "description": "The request was invalid.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 400,
+            "httpStatusCode": 400,
+            "message": "Invalid query parameter.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "422",
+          "mediaType": "application/json",
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 422,
+            "httpStatusCode": 422,
+            "message": "Missing or invalid fields in request body or parameters.",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "getToolCalls",
+      "category": "Tool Calls",
+      "method": "GET",
+      "path": "/toolCalls",
+      "summary": "Get a list of all tool calls",
+      "description": "Returns a list of the tool calls.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getToolCalls",
+      "parameters": [
+        {
+          "name": "filter",
+          "in": "query",
+          "required": false,
+          "description": "The criteria for filtering. Supported attributes include id, toolServerId, toolName and parentQueryId. Additional attributes might be added in future releases.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "enum": null
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "description": "The maximum number of records to be returned. `>= 1` or `<= 100`",
+          "type": "integer",
+          "default": 50,
+          "enum": null
+        },
+        {
+          "name": "start",
+          "in": "query",
+          "required": false,
+          "description": "The zero-based offset of the first record to be returned. `>= 0`",
+          "type": "integer",
+          "default": 0,
+          "enum": null
+        }
+      ],
+      "requestBody": {},
+      "responses": {
+        "200": {
+          "description": "The request succeeded.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "400": {
+          "description": "The request was invalid.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "422": {
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/toolCalls';\nconst options = {\n  method: 'GET',\n  headers: {Authorization: 'Bearer YOUR_ACCESS_TOKEN', Accept: 'application/json'}\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/toolCalls\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n}\n\ntry:\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/toolCalls\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n    }\n    async with httpx.AsyncClient() as client:\n        response = await client.get(url, headers=headers)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X GET \"https://example.com/SASRetrievalAgentManager/api/v1/toolCalls\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\""
+        },
+        "bodyExamples": []
+      },
+      "responseSamples": [
+        {
+          "statusCode": "200",
+          "mediaType": "application/json",
+          "description": "The request succeeded.",
+          "key": "example-1",
+          "value": {
+            "count": 1,
+            "items": [
+              {
+                "cost": 0.0001,
+                "id": "079b46b9-fbc4-44ce-8cb1-163330e4d812",
+                "input": {
+                  "question": "Is the openai/gym repository related to AI agents?"
+                },
+                "output": {
+                  "content": [
+                    {
+                      "text": "Yes, the openai/gym repository is directly related to AI agents.",
+                      "type": "text"
+                    }
+                  ],
+                  "isError": false,
+                  "structuredContent": {
+                    "result": "Yes, the openai/gym repository is directly related to AI agents."
+                  }
+                },
+                "parentQueryId": "19c0e653-28f5-49da-aa34-7ade481b362e",
+                "toolName": "ask_question",
+                "toolServerId": "de772bda-8756-41a8-9c68-defe2932bdad"
+              }
+            ],
+            "limit": 50,
+            "name": "toolCalls",
+            "start": 0
+          }
+        },
+        {
+          "statusCode": "400",
+          "mediaType": "application/json",
+          "description": "The request was invalid.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 400,
+            "httpStatusCode": 400,
+            "message": "Invalid query parameter.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "422",
+          "mediaType": "application/json",
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 422,
+            "httpStatusCode": 422,
+            "message": "Missing or invalid fields in request body or parameters.",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "getRetrievalCalls",
+      "category": "Retrieval Calls",
+      "method": "GET",
+      "path": "/retrievalCalls",
+      "summary": "Get a list of the available retrieval calls",
+      "description": "Returns a list of the retrieval calls made.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getRetrievalCalls",
+      "parameters": [
+        {
+          "name": "filter",
+          "in": "query",
+          "required": false,
+          "description": "The criteria for filtering. Supported attributes include id and parentQueryId. Additional attributes might be added in future releases.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "enum": null
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "description": "The maximum number of records to be returned. `>= 1` or `<= 100`",
+          "type": "integer",
+          "default": 50,
+          "enum": null
+        },
+        {
+          "name": "start",
+          "in": "query",
+          "required": false,
+          "description": "The zero-based offset of the first record to be returned. `>= 0`",
+          "type": "integer",
+          "default": 0,
+          "enum": null
+        }
+      ],
+      "requestBody": {},
+      "responses": {
+        "200": {
+          "description": "The request succeeded.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "400": {
+          "description": "The request was invalid.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "422": {
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/retrievalCalls';\nconst options = {\n  method: 'GET',\n  headers: {Authorization: 'Bearer YOUR_ACCESS_TOKEN', Accept: 'application/json'}\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/retrievalCalls\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n}\n\ntry:\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/retrievalCalls\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n    }\n    async with httpx.AsyncClient() as client:\n        response = await client.get(url, headers=headers)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X GET \"https://example.com/SASRetrievalAgentManager/api/v1/retrievalCalls\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\""
+        },
+        "bodyExamples": []
+      },
+      "responseSamples": [
+        {
+          "statusCode": "200",
+          "mediaType": "application/json",
+          "description": "The request succeeded.",
+          "key": "example-1",
+          "value": {
+            "count": 1,
+            "items": [
+              {
+                "completionCost": 0.0005,
+                "completionTokens": 25,
+                "configurationIds": [
+                  "de772bda-8756-41a8-9c68-defe2932bdad"
+                ],
+                "id": "079b46b9-fbc4-44ce-8cb1-163330e4d812",
+                "input": {
+                  "content": "What is the weather like today?"
+                },
+                "output": {
+                  "documents": [
+                    {
+                      "id": "weather-document-123",
+                      "metadata": {},
+                      "pageContent": "The weather today is sunny with a high of 75°F.",
+                      "type": "Document"
+                    }
+                  ]
+                },
+                "parentQueryId": "19c0e653-28f5-49da-aa34-7ade481b362e"
+              }
+            ],
+            "limit": 50,
+            "name": "retrievalCalls",
+            "start": 0
+          }
+        },
+        {
+          "statusCode": "400",
+          "mediaType": "application/json",
+          "description": "The request was invalid.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 400,
+            "httpStatusCode": 400,
+            "message": "Invalid query parameter.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "422",
+          "mediaType": "application/json",
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 422,
+            "httpStatusCode": 422,
+            "message": "Missing or invalid fields in request body or parameters.",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "getAgents",
+      "category": "Agents",
+      "method": "GET",
+      "path": "/agents",
+      "summary": "Get a list of all agents",
+      "description": "Returns a list of the agents.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getAgents",
+      "parameters": [
+        {
+          "name": "filter",
+          "in": "query",
+          "required": false,
+          "description": "The criteria for filtering. Supported attributes include id and name. Additional attributes might be added in future releases.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "enum": null
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "description": "The maximum number of records to be returned. `>= 1` or `<= 100`",
+          "type": "integer",
+          "default": 50,
+          "enum": null
+        },
+        {
+          "name": "start",
+          "in": "query",
+          "required": false,
+          "description": "The zero-based offset of the first record to be returned. `>= 0`",
+          "type": "integer",
+          "default": 0,
+          "enum": null
+        }
+      ],
+      "requestBody": {},
+      "responses": {
+        "200": {
+          "description": "The request succeeded.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "400": {
+          "description": "The request was invalid.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "422": {
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/agents';\nconst options = {\n  method: 'GET',\n  headers: {Authorization: 'Bearer YOUR_ACCESS_TOKEN', Accept: 'application/json'}\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/agents\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n}\n\ntry:\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/agents\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n    }\n    async with httpx.AsyncClient() as client:\n        response = await client.get(url, headers=headers)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X GET \"https://example.com/SASRetrievalAgentManager/api/v1/agents\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\""
+        },
+        "bodyExamples": []
+      },
+      "responseSamples": [
+        {
+          "statusCode": "200",
+          "mediaType": "application/json",
+          "description": "The request succeeded.",
+          "key": "example-1",
+          "value": {
+            "count": 1,
+            "items": [
+              {
+                "description": "An agent providing weather data.",
+                "id": "079b46b9-fbc4-44ce-8cb1-163330e4d812",
+                "name": "Weather Agent"
+              }
+            ],
+            "limit": 50,
+            "name": "agents",
+            "start": 0
+          }
+        },
+        {
+          "statusCode": "400",
+          "mediaType": "application/json",
+          "description": "The request was invalid.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 400,
+            "httpStatusCode": 400,
+            "message": "Invalid query parameter.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "422",
+          "mediaType": "application/json",
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 422,
+            "httpStatusCode": 422,
+            "message": "Missing or invalid fields in request body or parameters.",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "getSources",
+      "category": "Sources",
+      "method": "GET",
+      "path": "/sources",
+      "summary": "Get a list of the available sources",
+      "description": "Returns a list of sources.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getSources",
+      "parameters": [
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "description": "The maximum number of sources to be returned.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "default": 10,
+          "enum": null
+        },
+        {
+          "name": "start",
+          "in": "query",
+          "required": false,
+          "description": "The zero-based offset of the first source to be returned.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "default": 0,
+          "enum": null
+        },
+        {
+          "name": "sortBy",
+          "in": "query",
+          "required": false,
+          "description": "The criteria for sorting. Supported attributes include name, insertTimestamp, and updateTimestamp. Additional attributes might be added in future releases.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "enum": null
+        }
+      ],
+      "requestBody": {},
+      "responses": {
+        "200": {
+          "description": "The request succeeded.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "400": {
+          "description": "The request was invalid.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "422": {
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/sources';\nconst options = {\n  method: 'GET',\n  headers: {Authorization: 'Bearer YOUR_ACCESS_TOKEN', Accept: 'application/json'}\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/sources\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n}\n\ntry:\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/sources\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n    }\n    async with httpx.AsyncClient() as client:\n        response = await client.get(url, headers=headers)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X GET \"https://example.com/SASRetrievalAgentManager/api/v1/sources\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\""
+        },
+        "bodyExamples": []
+      },
+      "responseSamples": [
+        {
+          "statusCode": "200",
+          "mediaType": "application/json",
+          "description": "The request succeeded.",
+          "key": "example-1",
+          "value": {
+            "count": 3,
+            "items": [
+              {
+                "id": "079b46b9-fbc4-44ce-8cb1-163330e4d812",
+                "inputType": "file",
+                "insertTimestamp": "2025-12-12T19:48:53.448286+00:00",
+                "localUri": "/ramuser/data/infoFiles",
+                "metadata": {
+                  "description": "Collected info files for RAM source."
+                },
+                "name": "Info Files",
+                "sourceType": "local",
+                "updateTimestamp": "2025-12-13T09:15:22.123456+00:00"
+              },
+              {
+                "id": "86cc0aae-04ed-4e0f-97d2-53e8b7dc9881",
+                "inputType": "file",
+                "insertTimestamp": "2025-10-05T08:12:00.000000+00:00",
+                "localUri": "/ramuser/data/weather",
+                "metadata": {
+                  "description": "Daily weather CSV files."
+                },
+                "name": "Weather Data",
+                "sourceType": "local",
+                "updateTimestamp": "2025-11-15T17:45:00.000000+00:00"
+              },
+              {
+                "id": "de772bda-8756-41a8-9c68-defe2932bdad",
+                "inputType": "file",
+                "insertTimestamp": "2025-09-01T12:00:00.000000+00:00",
+                "localUri": "/ramuser/data/gitDocs",
+                "metadata": {
+                  "description": "Documentation synced from remote git."
+                },
+                "name": "Git Docs",
+                "sourceType": "git",
+                "updateTimestamp": "2025-12-20T12:30:00.000000+00:00"
+              }
+            ],
+            "limit": 10,
+            "name": "sources",
+            "start": 0
+          }
+        },
+        {
+          "statusCode": "400",
+          "mediaType": "application/json",
+          "description": "The request was invalid.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 400,
+            "httpStatusCode": 400,
+            "message": "Invalid query parameter.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "422",
+          "mediaType": "application/json",
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 422,
+            "httpStatusCode": 422,
+            "message": "Missing or invalid fields in request body or parameters.",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "createSource",
+      "category": "Sources",
+      "method": "POST",
+      "path": "/sources",
+      "summary": "Create a source",
+      "description": "Creates a source.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/createSource",
+      "parameters": [],
+      "requestBody": {
+        "description": "",
+        "required": true,
+        "contents": {
+          "application/json": {
+            "schemaType": "object",
+            "schemaRef": null,
+            "properties": [
+              "description",
+              "id",
+              "inputType",
+              "metadata",
+              "name",
+              "remoteUri",
+              "secrets",
+              "sourceType"
+            ]
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "The source was created.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "400": {
+          "description": "The request was invalid.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "422": {
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/sources';\nconst options = {\n  method: 'POST',\n  headers: {\n    Authorization: 'Bearer YOUR_ACCESS_TOKEN',\n    'Content-Type': 'application/json',\n    Accept: 'application/json'\n  },\n  body: JSON.stringify({\n    \"description\": \"Files with much info\",\n    \"inputType\": \"file\",\n    \"metadata\": {},\n    \"name\": \"Info Files\",\n    \"sourceType\": \"local\"\n})\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/sources\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n    \"Content-Type\": \"application/json\",\n}\npayload = {\n    \"description\": \"Files with much info\",\n    \"inputType\": \"file\",\n    \"metadata\": {},\n    \"name\": \"Info Files\",\n    \"sourceType\": \"local\"\n}\n\ntry:\n    response = requests.post(url, headers=headers, json=payload)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/sources\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n        \"Content-Type\": \"application/json\",\n    }\n    payload = {\n        \"description\": \"Files with much info\",\n        \"inputType\": \"file\",\n        \"metadata\": {},\n        \"name\": \"Info Files\",\n        \"sourceType\": \"local\"\n}\n    async with httpx.AsyncClient() as client:\n        response = await client.post(url, headers=headers, json=payload)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X POST \"https://example.com/SASRetrievalAgentManager/api/v1/sources\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"description\": \"Files with much info\",\n  \"inputType\": \"file\",\n  \"metadata\": {},\n  \"name\": \"Info Files\",\n  \"sourceType\": \"local\"\n}'"
+        },
+        "bodyExamples": [
+          {
+            "key": "example-1",
+            "summary": "An example of a local source object",
+            "mediaType": "application/json",
+            "value": {
+              "description": "Files with much info",
+              "inputType": "file",
+              "metadata": {},
+              "name": "Info Files",
+              "sourceType": "local"
+            }
+          },
+          {
+            "key": "example-2",
+            "summary": "An example of a git source object",
+            "mediaType": "application/json",
+            "value": {
+              "description": "A git repository source",
+              "inputType": "file",
+              "metadata": {
+                "schedule": "0 0 * * 5"
+              },
+              "name": "Git Repository",
+              "remoteUri": "https://github.com/example/repo.git",
+              "sourceType": "git"
+            }
+          }
+        ]
+      },
+      "responseSamples": [
+        {
+          "statusCode": "201",
+          "mediaType": "application/json",
+          "description": "The source was created.",
+          "key": "example-1",
+          "value": {
+            "description": "Files with much info",
+            "id": "079b46b9-fbc4-44ce-8cb1-163330e4d812",
+            "inputType": "file",
+            "name": "Info Files",
+            "sourceType": "local"
+          }
+        },
+        {
+          "statusCode": "201",
+          "mediaType": "application/json",
+          "description": "The source was created.",
+          "key": "example-2",
+          "value": {
+            "description": "A git repository source",
+            "id": "86cc0aae-04ed-4e0f-97d2-53e8b7dc9881",
+            "inputType": "repository",
+            "name": "Git Repository",
+            "sourceType": "git"
+          }
+        },
+        {
+          "statusCode": "400",
+          "mediaType": "application/json",
+          "description": "The request was invalid.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 400,
+            "httpStatusCode": 400,
+            "message": "Invalid query parameter.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "422",
+          "mediaType": "application/json",
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 422,
+            "httpStatusCode": 422,
+            "message": "Missing or invalid fields in request body or parameters.",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "deleteSource",
+      "category": "Sources",
+      "method": "DELETE",
+      "path": "/sources/{sourceId}",
+      "summary": "Delete a source",
+      "description": "Deletes a source object by its unique identifier.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/deleteSource",
+      "parameters": [
+        {
+          "name": "sourceId",
+          "in": "path",
+          "required": true,
+          "description": "The id for the source to delete.",
+          "type": "string",
+          "default": null,
+          "enum": null
+        }
+      ],
+      "requestBody": {},
+      "responses": {
+        "204": {
+          "description": "The source was deleted.",
+          "content": []
+        },
+        "400": {
+          "description": "The request was invalid.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "422": {
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}';\nconst options = {\n  method: 'DELETE',\n  headers: {Authorization: 'Bearer YOUR_ACCESS_TOKEN', Accept: 'application/json'}\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n}\n\ntry:\n    response = requests.delete(url, headers=headers)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n    }\n    async with httpx.AsyncClient() as client:\n        response = await client.delete(url, headers=headers)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X DELETE \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\""
+        },
+        "bodyExamples": []
+      },
+      "responseSamples": [
+        {
+          "statusCode": "400",
+          "mediaType": "application/json",
+          "description": "The request was invalid.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 400,
+            "httpStatusCode": 400,
+            "message": "Invalid query parameter.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "422",
+          "mediaType": "application/json",
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 422,
+            "httpStatusCode": 422,
+            "message": "Missing or invalid fields in request body or parameters.",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "getSource",
+      "category": "Sources",
+      "method": "GET",
+      "path": "/sources/{sourceId}",
+      "summary": "Get a source",
+      "description": "Returns a source object by its unique identifier.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getSource",
+      "parameters": [
+        {
+          "name": "sourceId",
+          "in": "path",
+          "required": true,
+          "description": "The id for the source object to get.",
+          "type": "string",
+          "default": null,
+          "enum": null
+        }
+      ],
+      "requestBody": {},
+      "responses": {
+        "200": {
+          "description": "The request succeeded.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "400": {
+          "description": "The request was invalid.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "422": {
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}';\nconst options = {\n  method: 'GET',\n  headers: {Authorization: 'Bearer YOUR_ACCESS_TOKEN', Accept: 'application/json'}\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n}\n\ntry:\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n    }\n    async with httpx.AsyncClient() as client:\n        response = await client.get(url, headers=headers)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X GET \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\""
+        },
+        "bodyExamples": []
+      },
+      "responseSamples": [
+        {
+          "statusCode": "200",
+          "mediaType": "application/json",
+          "description": "The request succeeded.",
+          "key": "example-1",
+          "value": {
+            "id": "079b46b9-fbc4-44ce-8cb1-163330e4d812",
+            "inputType": "file",
+            "insertTimestamp": "2025-12-12T19:48:53.448286+00:00",
+            "metadata": {
+              "createdBy": "9850832c-bf81-4335-9947-cdb9bb33d017"
+            },
+            "name": "Info Files",
+            "secrets": {
+              "envVars": []
+            },
+            "sourceType": "local",
+            "updateTimestamp": "2025-12-13T09:15:22.123456+00:00"
+          }
+        },
+        {
+          "statusCode": "400",
+          "mediaType": "application/json",
+          "description": "The request was invalid.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 400,
+            "httpStatusCode": 400,
+            "message": "Invalid query parameter.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "422",
+          "mediaType": "application/json",
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 422,
+            "httpStatusCode": 422,
+            "message": "Missing or invalid fields in request body or parameters.",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "getSourceFiles",
+      "category": "Sources",
+      "method": "GET",
+      "path": "/sources/{sourceId}/files",
+      "summary": "Get a list of files from a specific source",
+      "description": "Returns a list of files from a local source.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getSourceFiles",
+      "parameters": [
+        {
+          "name": "sourceId",
+          "in": "path",
+          "required": true,
+          "description": "The id of the source to retrieve all files.",
+          "type": "string",
+          "default": null,
+          "enum": null
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "description": "The maximum number of files to be returned.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "default": 10,
+          "enum": null
+        },
+        {
+          "name": "start",
+          "in": "query",
+          "required": false,
+          "description": "Zero based offset of the first file to be returned.",
+          "type": "integer",
+          "default": 0,
+          "enum": null
+        },
+        {
+          "name": "sortBy",
+          "in": "query",
+          "required": false,
+          "description": "The criteria for sorting. Supported attributes include sourceFileId, filepath, insertTimestamp, and updateTimestamp. Additional attributes might be added in future releases.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "enum": null
+        }
+      ],
+      "requestBody": {},
+      "responses": {
+        "200": {
+          "description": "The request succeeded.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "400": {
+          "description": "The request was invalid.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "422": {
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files';\nconst options = {\n  method: 'GET',\n  headers: {Authorization: 'Bearer YOUR_ACCESS_TOKEN', Accept: 'application/json'}\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n}\n\ntry:\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n    }\n    async with httpx.AsyncClient() as client:\n        response = await client.get(url, headers=headers)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X GET \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\""
+        },
+        "bodyExamples": []
+      },
+      "responseSamples": [
+        {
+          "statusCode": "200",
+          "mediaType": "application/json",
+          "description": "The request succeeded.",
+          "key": "example-1",
+          "value": {
+            "count": 3,
+            "items": [
+              {
+                "filepath": "example1.txt",
+                "insertTimestamp": "2025-12-12T10:15:30.123456+00:00",
+                "metadata": {
+                  "size": 123,
+                  "type": "text/plain"
+                },
+                "sourceFileId": "3c8b12a9-17d1-4f1b-822b-423ec8491bc0",
+                "sourceId": "079b46b9-fbc4-44ce-8cb1-163330e4d812",
+                "updateTimestamp": "2025-12-13T09:45:12.654321+00:00"
+              },
+              {
+                "filepath": "reports/2025-12-summary.pdf",
+                "insertTimestamp": "2025-12-12T11:20:05.000000+00:00",
+                "metadata": {
+                  "size": 204800,
+                  "type": "application/pdf"
+                },
+                "sourceFileId": "a1b2c3d4-1111-4f1b-822b-423ec8491bc0",
+                "sourceId": "079b46b9-fbc4-44ce-8cb1-163330e4d812",
+                "updateTimestamp": "2025-12-12T11:20:05.000000+00:00"
+              },
+              {
+                "filepath": "data/weather/daily_2025-12-13.csv",
+                "insertTimestamp": "2025-12-13T06:30:00.000000+00:00",
+                "metadata": {
+                  "size": 9876,
+                  "type": "text/csv"
+                },
+                "sourceFileId": "b2c3d4e5-2222-4f1b-822b-423ec8491bc0",
+                "sourceId": "079b46b9-fbc4-44ce-8cb1-163330e4d812",
+                "updateTimestamp": "2025-12-13T06:45:12.000000+00:00"
+              }
+            ],
+            "limit": 10,
+            "name": "sourceFiles",
+            "start": 0
+          }
+        },
+        {
+          "statusCode": "400",
+          "mediaType": "application/json",
+          "description": "The request was invalid.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 400,
+            "httpStatusCode": 400,
+            "message": "Invalid query parameter.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "422",
+          "mediaType": "application/json",
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 422,
+            "httpStatusCode": 422,
+            "message": "Missing or invalid fields in request body or parameters.",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "createSourceFile",
+      "category": "Sources",
+      "method": "POST",
+      "path": "/sources/{sourceId}/files",
+      "summary": "Create a file in a specific source",
+      "description": "Uploads a file to a local source.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/createSourceFile",
+      "parameters": [
+        {
+          "name": "sourceId",
+          "in": "path",
+          "required": true,
+          "description": "The id of the source to upload a file to.",
+          "type": "string",
+          "default": null,
+          "enum": null
+        }
+      ],
+      "requestBody": {
+        "description": "",
+        "required": true,
+        "contents": {
+          "multipart/form-data": {
+            "schemaType": "object",
+            "schemaRef": null,
+            "properties": [
+              "file"
+            ]
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "The request succeeded.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "400": {
+          "description": "The request was invalid.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "422": {
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files';\nconst options = {\n  method: 'POST',\n  headers: {\n    Authorization: 'Bearer YOUR_ACCESS_TOKEN',\n    'Content-Type': 'application/json',\n    Accept: 'application/json'\n  },\n  body: JSON.stringify({\n    \"file\": \"example1.txt\"\n})\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n    \"Content-Type\": \"application/json\",\n}\npayload = {\n    \"file\": \"example1.txt\"\n}\n\ntry:\n    response = requests.post(url, headers=headers, json=payload)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n        \"Content-Type\": \"application/json\",\n    }\n    payload = {\n        \"file\": \"example1.txt\"\n}\n    async with httpx.AsyncClient() as client:\n        response = await client.post(url, headers=headers, json=payload)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X POST \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"file\": \"example1.txt\"\n}'"
+        },
+        "bodyExamples": [
+          {
+            "key": "example-1",
+            "summary": "An example request for uploading files",
+            "mediaType": "multipart/form-data",
+            "value": {
+              "file": "example1.txt"
+            }
+          }
+        ]
+      },
+      "responseSamples": [
+        {
+          "statusCode": "201",
+          "mediaType": "application/json",
+          "description": "The request succeeded.",
+          "key": "example-1",
+          "value": {
+            "id": "3c8b12a9-17d1-4f1b-822b-423ec8491bc0",
+            "sourceId": "079b46b9-fbc4-44ce-8cb1-163330e4d812"
+          }
+        },
+        {
+          "statusCode": "400",
+          "mediaType": "application/json",
+          "description": "The request was invalid.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 400,
+            "httpStatusCode": 400,
+            "message": "Invalid query parameter.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "422",
+          "mediaType": "application/json",
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 422,
+            "httpStatusCode": 422,
+            "message": "Missing or invalid fields in request body or parameters.",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "deleteSourceFile",
+      "category": "Sources",
+      "method": "DELETE",
+      "path": "/sources/{sourceId}/files/{fileId}",
+      "summary": "Delete a file from a source",
+      "description": "Deletes a file in a local source.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/deleteSourceFile",
+      "parameters": [
+        {
+          "name": "sourceId",
+          "in": "path",
+          "required": true,
+          "description": "The id of the source to delete the file from.",
+          "type": "string",
+          "default": null,
+          "enum": null
+        },
+        {
+          "name": "fileId",
+          "in": "path",
+          "required": true,
+          "description": "The id of the file to delete.",
+          "type": "string",
+          "default": null,
+          "enum": null
+        }
+      ],
+      "requestBody": {},
+      "responses": {
+        "204": {
+          "description": "The file was deleted.",
+          "content": []
+        },
+        "400": {
+          "description": "The request was invalid.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "422": {
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files/{fileId}';\nconst options = {\n  method: 'DELETE',\n  headers: {Authorization: 'Bearer YOUR_ACCESS_TOKEN', Accept: 'application/json'}\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files/{fileId}\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n}\n\ntry:\n    response = requests.delete(url, headers=headers)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files/{fileId}\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n    }\n    async with httpx.AsyncClient() as client:\n        response = await client.delete(url, headers=headers)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X DELETE \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files/{fileId}\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\""
+        },
+        "bodyExamples": []
+      },
+      "responseSamples": [
+        {
+          "statusCode": "400",
+          "mediaType": "application/json",
+          "description": "The request was invalid.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 400,
+            "httpStatusCode": 400,
+            "message": "Invalid query parameter.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "422",
+          "mediaType": "application/json",
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 422,
+            "httpStatusCode": 422,
+            "message": "Missing or invalid fields in request body or parameters.",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "getSourceFile",
+      "category": "Sources",
+      "method": "GET",
+      "path": "/sources/{sourceId}/files/{fileId}",
+      "summary": "Get a file from a specific source",
+      "description": "Returns a file in a local source.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getSourceFile",
+      "parameters": [
+        {
+          "name": "sourceId",
+          "in": "path",
+          "required": true,
+          "description": "The id of the source to retrieve the file from.",
+          "type": "string",
+          "default": null,
+          "enum": null
+        },
+        {
+          "name": "fileId",
+          "in": "path",
+          "required": true,
+          "description": "The id of the file to retrieve.",
+          "type": "string",
+          "default": null,
+          "enum": null
+        }
+      ],
+      "requestBody": {},
+      "responses": {
+        "200": {
+          "description": "The request succeeded.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "400": {
+          "description": "The request was invalid.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "422": {
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files/{fileId}';\nconst options = {\n  method: 'GET',\n  headers: {Authorization: 'Bearer YOUR_ACCESS_TOKEN', Accept: 'application/json'}\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files/{fileId}\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n}\n\ntry:\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files/{fileId}\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n    }\n    async with httpx.AsyncClient() as client:\n        response = await client.get(url, headers=headers)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X GET \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files/{fileId}\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\""
+        },
+        "bodyExamples": []
+      },
+      "responseSamples": [
+        {
+          "statusCode": "200",
+          "mediaType": "application/json",
+          "description": "The request succeeded.",
+          "key": "example-1",
+          "value": {
+            "filepath": "report.pdf",
+            "insertTimestamp": "2025-12-12T10:15:30.123456+00:00",
+            "metadata": {
+              "size": 204800,
+              "type": "pdf"
+            },
+            "sourceFileId": "f39dad75-a389-469a-a258-4e7295a12b8b",
+            "sourceId": "cef92c26-c0dc-4a6f-a10a-7e3996bf2559",
+            "updateTimestamp": "2025-12-13T09:45:12.654321+00:00"
+          }
+        },
+        {
+          "statusCode": "400",
+          "mediaType": "application/json",
+          "description": "The request was invalid.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 400,
+            "httpStatusCode": 400,
+            "message": "Invalid query parameter.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "422",
+          "mediaType": "application/json",
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 422,
+            "httpStatusCode": 422,
+            "message": "Missing or invalid fields in request body or parameters.",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "deleteTagFromSourceFile",
+      "category": "Sources",
+      "method": "DELETE",
+      "path": "/sources/{sourceId}/files/{fileId}/tags/{tagId}",
+      "summary": "Removes a source file tag from a source file",
+      "description": "Removes a tag from a source file.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/deleteTagFromSourceFile",
+      "parameters": [
+        {
+          "name": "sourceId",
+          "in": "path",
+          "required": true,
+          "description": "The ID of the source the file belongs to.",
+          "type": "string",
+          "default": null,
+          "enum": null
+        },
+        {
+          "name": "fileId",
+          "in": "path",
+          "required": true,
+          "description": "The ID of the file to remove the tag from.",
+          "type": "string",
+          "default": null,
+          "enum": null
+        },
+        {
+          "name": "tagId",
+          "in": "path",
+          "required": true,
+          "description": "The ID of the tag to remove.",
+          "type": "string",
+          "default": null,
+          "enum": null
+        }
+      ],
+      "requestBody": {},
+      "responses": {
+        "204": {
+          "description": "The tag was removed.",
+          "content": []
+        },
+        "400": {
+          "description": "The request was invalid.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "422": {
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files/{fileId}/tags/{tagId}';\nconst options = {\n  method: 'DELETE',\n  headers: {Authorization: 'Bearer YOUR_ACCESS_TOKEN', Accept: 'application/json'}\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files/{fileId}/tags/{tagId}\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n}\n\ntry:\n    response = requests.delete(url, headers=headers)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files/{fileId}/tags/{tagId}\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n    }\n    async with httpx.AsyncClient() as client:\n        response = await client.delete(url, headers=headers)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X DELETE \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files/{fileId}/tags/{tagId}\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\""
+        },
+        "bodyExamples": []
+      },
+      "responseSamples": [
+        {
+          "statusCode": "400",
+          "mediaType": "application/json",
+          "description": "The request was invalid.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 400,
+            "httpStatusCode": 400,
+            "message": "Invalid query parameter.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "422",
+          "mediaType": "application/json",
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 422,
+            "httpStatusCode": 422,
+            "message": "Missing or invalid fields in request body or parameters.",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "updateFileWithTag",
+      "category": "Sources",
+      "method": "PUT",
+      "path": "/sources/{sourceId}/files/{fileId}/tags/{tagId}",
+      "summary": "Update a source file with a tag",
+      "description": "Updates a source file with a tag.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/updateFileWithTag",
+      "parameters": [
+        {
+          "name": "sourceId",
+          "in": "path",
+          "required": true,
+          "description": "The ID of the source the file belongs to.",
+          "type": "string",
+          "default": null,
+          "enum": null
+        },
+        {
+          "name": "fileId",
+          "in": "path",
+          "required": true,
+          "description": "The ID of the file to update the tag for.",
+          "type": "string",
+          "default": null,
+          "enum": null
+        },
+        {
+          "name": "tagId",
+          "in": "path",
+          "required": true,
+          "description": "The ID of the tag to update.",
+          "type": "string",
+          "default": null,
+          "enum": null
+        }
+      ],
+      "requestBody": {},
+      "responses": {
+        "200": {
+          "description": "The request succeeded.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "400": {
+          "description": "The request was invalid.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "404": {
+          "description": "The specified resource was not found.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "422": {
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files/{fileId}/tags/{tagId}';\nconst options = {\n  method: 'PUT',\n  headers: {Authorization: 'Bearer YOUR_ACCESS_TOKEN', Accept: 'application/json'}\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files/{fileId}/tags/{tagId}\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n}\n\ntry:\n    response = requests.put(url, headers=headers)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files/{fileId}/tags/{tagId}\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n    }\n    async with httpx.AsyncClient() as client:\n        response = await client.put(url, headers=headers)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X PUT \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/files/{fileId}/tags/{tagId}\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\""
+        },
+        "bodyExamples": []
+      },
+      "responseSamples": [
+        {
+          "statusCode": "200",
+          "mediaType": "application/json",
+          "description": "The request succeeded.",
+          "key": "example-1",
+          "value": {
+            "message": "Tag 'confidential' was successfully added to file with id 'f39dad75-a389-469a-a258-4e7295a12b8b'."
+          }
+        },
+        {
+          "statusCode": "400",
+          "mediaType": "application/json",
+          "description": "The request was invalid.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 400,
+            "httpStatusCode": 400,
+            "message": "Invalid query parameter.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "404",
+          "mediaType": "application/json",
+          "description": "The specified resource was not found.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "loc: path.id",
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 404,
+            "httpStatusCode": 404,
+            "message": "The specified resource was not found.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "422",
+          "mediaType": "application/json",
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 422,
+            "httpStatusCode": 422,
+            "message": "Missing or invalid fields in request body or parameters.",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "updateSourceTriggerAutomation",
+      "category": "Sources",
+      "method": "PUT",
+      "path": "/sources/{sourceId}/triggerAutomation",
+      "summary": "Trigger automation based on a source",
+      "description": "Triggers automation for a source.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/updateSourceTriggerAutomation",
+      "parameters": [
+        {
+          "name": "sourceId",
+          "in": "path",
+          "required": true,
+          "description": "The ID of the source to trigger its automation.",
+          "type": "string",
+          "default": null,
+          "enum": null
+        }
+      ],
+      "requestBody": {},
+      "responses": {
+        "200": {
+          "description": "The request succeeded.",
+          "content": []
+        },
+        "400": {
+          "description": "The request was invalid.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "422": {
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/triggerAutomation';\nconst options = {\n  method: 'PUT',\n  headers: {Authorization: 'Bearer YOUR_ACCESS_TOKEN', Accept: 'application/json'}\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/triggerAutomation\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n}\n\ntry:\n    response = requests.put(url, headers=headers)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/triggerAutomation\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n    }\n    async with httpx.AsyncClient() as client:\n        response = await client.put(url, headers=headers)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X PUT \"https://example.com/SASRetrievalAgentManager/api/v1/sources/{sourceId}/triggerAutomation\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\""
+        },
+        "bodyExamples": []
+      },
+      "responseSamples": [
+        {
+          "statusCode": "400",
+          "mediaType": "application/json",
+          "description": "The request was invalid.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 400,
+            "httpStatusCode": 400,
+            "message": "Invalid query parameter.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "422",
+          "mediaType": "application/json",
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 422,
+            "httpStatusCode": 422,
+            "message": "Missing or invalid fields in request body or parameters.",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "getTags",
+      "category": "Tags",
+      "method": "GET",
+      "path": "/tags",
+      "summary": "Get a list of all source file tags",
+      "description": "Returns a list of tags for source files.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/getTags",
+      "parameters": [
+        {
+          "name": "filter",
+          "in": "query",
+          "required": false,
+          "description": "The criteria for filtering. Supported attributes include id, name, and sourceId. Additional attributes might be added in future releases.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "enum": null
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "description": "The maximum number of records to be returned. `>= 1` or `<= 100`",
+          "type": "integer",
+          "default": 50,
+          "enum": null
+        },
+        {
+          "name": "start",
+          "in": "query",
+          "required": false,
+          "description": "The zero-based offset of the first record to be returned. `>= 0`",
+          "type": "integer",
+          "default": 0,
+          "enum": null
+        }
+      ],
+      "requestBody": {},
+      "responses": {
+        "200": {
+          "description": "The request succeeded.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "400": {
+          "description": "The request was invalid.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "422": {
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/tags';\nconst options = {\n  method: 'GET',\n  headers: {Authorization: 'Bearer YOUR_ACCESS_TOKEN', Accept: 'application/json'}\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/tags\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n}\n\ntry:\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/tags\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n    }\n    async with httpx.AsyncClient() as client:\n        response = await client.get(url, headers=headers)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X GET \"https://example.com/SASRetrievalAgentManager/api/v1/tags\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\""
+        },
+        "bodyExamples": []
+      },
+      "responseSamples": [
+        {
+          "statusCode": "200",
+          "mediaType": "application/json",
+          "description": "The request succeeded.",
+          "key": "example-1",
+          "value": {
+            "count": 2,
+            "items": [
+              {
+                "description": "Files that contain confidential information.",
+                "id": "123e4567-e89b-12d3-a456-426614174000",
+                "name": "confidential"
+              },
+              {
+                "description": "Files related to project alpha.",
+                "id": "123e4567-e89b-12d3-a456-426614174000",
+                "name": "project-alpha",
+                "sourceId": "079b46b9-fbc4-44ce-8cb1-163330e4d812"
+              }
+            ],
+            "limit": 10,
+            "name": "sourceFileTags",
+            "start": 0
+          }
+        },
+        {
+          "statusCode": "400",
+          "mediaType": "application/json",
+          "description": "The request was invalid.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 400,
+            "httpStatusCode": 400,
+            "message": "Invalid query parameter.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "422",
+          "mediaType": "application/json",
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 422,
+            "httpStatusCode": 422,
+            "message": "Missing or invalid fields in request body or parameters.",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "createTag",
+      "category": "Tags",
+      "method": "POST",
+      "path": "/tags",
+      "summary": "Create a source file tag",
+      "description": "Creates a tag for a source file.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/createTag",
+      "parameters": [],
+      "requestBody": {
+        "description": "",
+        "required": true,
+        "contents": {
+          "application/json": {
+            "schemaType": "object",
+            "schemaRef": null,
+            "properties": [
+              "description",
+              "metadata",
+              "name",
+              "sourceId"
+            ]
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "A tag was created.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "400": {
+          "description": "The request was invalid.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "422": {
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/tags';\nconst options = {\n  method: 'POST',\n  headers: {\n    Authorization: 'Bearer YOUR_ACCESS_TOKEN',\n    'Content-Type': 'application/json',\n    Accept: 'application/json'\n  },\n  body: JSON.stringify({\n    \"description\": \"Files that contain confidential information.\",\n    \"metadata\": {},\n    \"name\": \"confidential\"\n})\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/tags\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n    \"Content-Type\": \"application/json\",\n}\npayload = {\n    \"description\": \"Files that contain confidential information.\",\n    \"metadata\": {},\n    \"name\": \"confidential\"\n}\n\ntry:\n    response = requests.post(url, headers=headers, json=payload)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/tags\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n        \"Content-Type\": \"application/json\",\n    }\n    payload = {\n        \"description\": \"Files that contain confidential information.\",\n        \"metadata\": {},\n        \"name\": \"confidential\"\n}\n    async with httpx.AsyncClient() as client:\n        response = await client.post(url, headers=headers, json=payload)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X POST \"https://example.com/SASRetrievalAgentManager/api/v1/tags\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"description\": \"Files that contain confidential information.\",\n  \"metadata\": {},\n  \"name\": \"confidential\"\n}'"
+        },
+        "bodyExamples": [
+          {
+            "key": "example-1",
+            "summary": "An example request for creating a global source file tag",
+            "mediaType": "application/json",
+            "value": {
+              "description": "Files that contain confidential information.",
+              "metadata": {},
+              "name": "confidential"
+            }
+          },
+          {
+            "key": "example-2",
+            "summary": "An example request for creating a local source file tag",
+            "mediaType": "application/json",
+            "value": {
+              "description": "Files related to project alpha.",
+              "metadata": {},
+              "name": "project-alpha",
+              "sourceId": "079b46b9-fbc4-44ce-8cb1-163330e4d812"
+            }
+          }
+        ]
+      },
+      "responseSamples": [
+        {
+          "statusCode": "201",
+          "mediaType": "application/json",
+          "description": "A tag was created.",
+          "key": "example-1",
+          "value": {
+            "description": "Files that contain confidential information.",
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "insertTimestamp": "2025-12-12T19:48:53.448286+00:00",
+            "metadata": {},
+            "name": "confidential",
+            "updateTimestamp": "2025-12-12T19:48:53.448286+00:00"
+          }
+        },
+        {
+          "statusCode": "201",
+          "mediaType": "application/json",
+          "description": "A tag was created.",
+          "key": "example-2",
+          "value": {
+            "description": "Files related to project alpha.",
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "insertTimestamp": "2025-12-12T19:48:53.448286+00:00",
+            "metadata": {},
+            "name": "project-alpha",
+            "sourceId": "079b46b9-fbc4-44ce-8cb1-163330e4d812",
+            "updateTimestamp": "2025-12-12T19:48:53.448286+00:00"
+          }
+        },
+        {
+          "statusCode": "400",
+          "mediaType": "application/json",
+          "description": "The request was invalid.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 400,
+            "httpStatusCode": 400,
+            "message": "Invalid query parameter.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "422",
+          "mediaType": "application/json",
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 422,
+            "httpStatusCode": 422,
+            "message": "Missing or invalid fields in request body or parameters.",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "deleteTag",
+      "category": "Tags",
+      "method": "DELETE",
+      "path": "/tags/{tagId}",
+      "summary": "Delete a source file tag",
+      "description": "Deletes a source file tag.",
+      "portalUrl": "https://developer.sas.com/rest-apis/SASRetrievalAgentManager/deleteTag",
+      "parameters": [
+        {
+          "name": "tagId",
+          "in": "path",
+          "required": true,
+          "description": "The ID of the file tag to delete.",
+          "type": "string",
+          "default": null,
+          "enum": null
+        }
+      ],
+      "requestBody": {},
+      "responses": {
+        "204": {
+          "description": "The tag was deleted.",
+          "content": []
+        },
+        "400": {
+          "description": "The request was invalid.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "401": {
+          "description": "The user was not authenticated.",
+          "content": [
+            "application/json"
+          ]
+        },
+        "422": {
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "content": [
+            "application/json"
+          ]
+        }
+      },
+      "requestSamples": {
+        "javascript": {
+          "label": "JavaScript - Fetch",
+          "code": "const url = 'https://example.com/SASRetrievalAgentManager/api/v1/tags/{tagId}';\nconst options = {\n  method: 'DELETE',\n  headers: {Authorization: 'Bearer YOUR_ACCESS_TOKEN', Accept: 'application/json'}\n};\n\ntry {\n  const response = await fetch(url, options);\n  const data = await response.json();\n  console.log(data);\n} catch (error) {\n  console.error(error);\n}"
+        },
+        "python": {
+          "requests": "import requests\n\nurl = \"https://example.com/SASRetrievalAgentManager/api/v1/tags/{tagId}\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n    \"Accept\": \"application/json\",\n}\n\ntry:\n    response = requests.delete(url, headers=headers)\n    response.raise_for_status()\n    data = response.json()\n    print(data)\nexcept requests.exceptions.RequestException as error:\n    print(f'Request failed: {error}')",
+          "httpx": "import httpx\nimport asyncio\n\nasync def main():\n    url = \"https://example.com/SASRetrievalAgentManager/api/v1/tags/{tagId}\"\n    headers = {\n        \"Authorization\": \"Bearer YOUR_ACCESS_TOKEN\",\n        \"Accept\": \"application/json\",\n    }\n    async with httpx.AsyncClient() as client:\n        response = await client.delete(url, headers=headers)\n        print(response.json())\n\nasyncio.run(main())"
+        },
+        "curl": {
+          "label": "Shell - cURL",
+          "code": "curl -X DELETE \"https://example.com/SASRetrievalAgentManager/api/v1/tags/{tagId}\" \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\\n  -H \"Accept: application/json\""
+        },
+        "bodyExamples": []
+      },
+      "responseSamples": [
+        {
+          "statusCode": "400",
+          "mediaType": "application/json",
+          "description": "The request was invalid.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 400,
+            "httpStatusCode": 400,
+            "message": "Invalid query parameter.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "401",
+          "mediaType": "application/json",
+          "description": "The user was not authenticated.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 401,
+            "httpStatusCode": 401,
+            "message": "The credentials could not be validated.",
+            "version": 2
+          }
+        },
+        {
+          "statusCode": "422",
+          "mediaType": "application/json",
+          "description": "The server understands the request but was unable to process the contained instructions.",
+          "key": "example-1",
+          "value": {
+            "details": [
+              "correlator: 123e4567-e89b-12d3-a456-426614174000"
+            ],
+            "errorCode": 422,
+            "httpStatusCode": 422,
+            "message": "Missing or invalid fields in request body or parameters.",
+            "version": 2
+          }
+        }
+      ]
+    }
+  ]
+}
