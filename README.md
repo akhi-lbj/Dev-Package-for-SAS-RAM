@@ -6,7 +6,7 @@ Plug-and-play AI Agent Skill (`sas-ram-integration`), full REST API documentatio
 
 ## ⚡ Quick Install
 
-Equip any AI coding agent (Antigravity, Cursor, Claude Code, Copilot) with the SAS RAM skill:
+Equip any AI coding agent (Antigravity, Cursor, Claude Code, Codex etc.) with the SAS RAM skill:
 
 ```bash
 git clone https://github.com/akhi-lbj/Dev-Package-for-SAS-RAM.git .agents/skills/sas-ram-integration
